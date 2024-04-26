@@ -18,7 +18,7 @@ TickTackk.DeveloperTools = TickTackk.DeveloperTools || {};
                 {
                     permissionErrorStr += '\n* ' + data.html.permissionErrorDetails.join('\n* ');
                 }
-                console.error(permissionErrorStr)
+                console.error(permissionErrorStr);
             }
 
             if (realOnSuccess)
