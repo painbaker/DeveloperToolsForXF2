@@ -28,9 +28,9 @@ class Listener
 	 * @param AbstractReply    $reply      Reply object.
 	 * @param AbstractRenderer $renderer   Renderer object.
 	 * @param Response         $response   HTTP Response object.
-     *
-     * @noinspection PhpUnusedParameterInspection
-     */
+	 *
+	 * @noinspection PhpUnusedParameterInspection
+	 */
 	public static function dispatcherPostRender(
 		Dispatcher $dispatcher,
 		?string &$content,
@@ -49,30 +49,30 @@ class Listener
 		{
 		    $permissionErrors = $templater->getPermissionErrors();
 
-            if (count($permissionErrors))
-            {
-                $warningHtml = '<div class="blockMessage blockMessage--warning"><h2 style="margin: 0 0 .5em 0">Permission errors</h2><ul>';
-                foreach ($permissionErrors AS $permissionError)
-                {
-                    $warningHtml .= sprintf('<li>%s (%s:%d)</li>',
-                        htmlspecialchars($permissionError['error']),
-                        htmlspecialchars(FileUtil::stripRootPathPrefix($permissionError['file'])),
-                        $permissionError['line']
-                    );
-                }
-                $warningHtml .= '</ul></div>';
+		    if (count($permissionErrors))
+		    {
+		        $warningHtml = '<div class="blockMessage blockMessage--warning"><h2 style="margin: 0 0 .5em 0">Permission errors</h2><ul>';
+		        foreach ($permissionErrors AS $permissionError)
+		        {
+		            $warningHtml .= sprintf('<li>%s (%s:%d)</li>',
+		                htmlspecialchars($permissionError['error']),
+		                htmlspecialchars(FileUtil::stripRootPathPrefix($permissionError['file'])),
+		                $permissionError['line']
+		            );
+		        }
+		        $warningHtml .= '</ul></div>';
 
-                if (strpos($content, '<!--XF:EXTRA_OUTPUT-->') !== false)
-                {
-                    $content = str_replace('<!--XF:EXTRA_OUTPUT-->', $warningHtml . '<!--XF:EXTRA_OUTPUT-->', $content);
-                }
-                else
-                {
-                    $content = preg_replace('#<body[^>]*>#i', "\\0$warningHtml", $content);
-                }
-            }
-        }
-    }
+		        if (strpos($content, '<!--XF:EXTRA_OUTPUT-->') !== false)
+		        {
+		            $content = str_replace('<!--XF:EXTRA_OUTPUT-->', $warningHtml . '<!--XF:EXTRA_OUTPUT-->', $content);
+		        }
+		        else
+		        {
+		            $content = preg_replace('#<body[^>]*>#i', "\\0$warningHtml", $content);
+		        }
+		    }
+		}
+	}
 
 
 	/**
@@ -80,8 +80,8 @@ class Listener
 	 * the application type.
 	 *
 	 * @param BaseApp $app Global App object.
-     *
-     * @noinspection PhpUnusedParameterInspection
+	 *
+	 * @noinspection PhpUnusedParameterInspection
 	 */
 	public static function appSetup(BaseApp $app): void
 	{
