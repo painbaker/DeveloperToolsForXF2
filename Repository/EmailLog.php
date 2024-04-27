@@ -7,6 +7,7 @@ use XF\Mvc\Entity\Finder;
 use XF\Mvc\Entity\Repository;
 use TickTackk\DeveloperTools\Finder\EmailLog as EmailLogFinder;
 use Swift_Mime_SimpleMessage as SwiftMessage;
+use \Swift_Mime_Message;
 use XF\Mvc\Entity\Manager as EntityManager;
 use TickTackk\DeveloperTools\Entity\EmailLog as EmailLogEntity;
 use Symfony\Component\Mime\Address;
@@ -34,7 +35,7 @@ class EmailLog extends Repository
     {
         $emailData = [];
 
-        if (($messageOrEmail instanceof SwiftMessage) || ($messageOrEmail instanceof Email))
+        if (($messageOrEmail instanceof SwiftMessage) || ($messageOrEmail instanceof Email) || ($messageOrEmail instanceof Swift_Mime_Message))
         {
             $emailData = array_merge($emailData, [
                 'subject' => $messageOrEmail->getSubject(),
@@ -48,7 +49,7 @@ class EmailLog extends Repository
             ]);
         }
 
-        if ($messageOrEmail instanceof SwiftMessage)
+        if (($messageOrEmail instanceof SwiftMessage) || ($messageOrEmail instanceof Swift_Mime_Message))
         {
             $htmlMessageSet = false;
             $textMessageSet = false;
@@ -126,7 +127,7 @@ class EmailLog extends Repository
     /**
      * @version 1.5.0
      *
-     * @param SwiftMessage|Email $messageOrEmail
+     * @param \Swift_Mime_Message|SwiftMessage|Email $messageOrEmail
      *
      * @throws \XF\PrintableException
      */
