@@ -9,6 +9,7 @@ CHANGELOG
 - **Fix:** Permission interface groups are not sorted correctly when building readme (#125)
 - **Fix:** Error: Call to undefined method `XF\Api\Templater::logPermissionError()` (#127)
 - **Fix:** Incompatible with XenForo 2.3 (#131)
+- **Fix:** Incompatible with XenForo 2.1 (#132)
 
 ## 1.4.3 (`1040370`)
 

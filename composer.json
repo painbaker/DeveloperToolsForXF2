@@ -13,7 +13,8 @@
         "cweagans/composer-patches": "^1.7",
         "jawira/case-converter": "^3.4",
         "league/html-to-markdown": "^5.0",
-        "nette/php-generator": "^3.6"
+        "nette/php-generator": "^3.6",
+        "nikic/php-parser": "4.13"
     },
     "extra": {
         "patches": {
