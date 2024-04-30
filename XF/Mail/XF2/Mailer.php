@@ -18,6 +18,7 @@ class Mailer extends XFCP_Mailer
      * @throws \XF\PrintableException
      *
      * @noinspection PhpUndefinedClassInspection
+     * @noinspection PhpSignatureMismatchDuringInheritanceInspection
      */
     public function send
     (

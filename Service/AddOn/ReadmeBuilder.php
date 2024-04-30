@@ -97,8 +97,6 @@ class ReadmeBuilder extends AbstractService
      * @param AddOn|null $addOn
      *
      * @return array
-     *
-     * @throws \ReflectionException
      */
     protected function getData(?AddOn $addOn = null) : array
     {

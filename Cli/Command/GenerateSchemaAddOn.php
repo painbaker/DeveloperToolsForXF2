@@ -39,7 +39,7 @@ class GenerateSchemaAddOn extends Command
      *
      * @return int
      *
-     * @throws \Exception
+     * @throws \Symfony\Component\Console\Exception\ExceptionInterface
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
