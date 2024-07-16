@@ -10,6 +10,7 @@ if [[ ! -d "src/addons/$1" ]]; then
     exit 1;
 fi
 
-php cmd.php xf:addon-upgrade  "$1" -v
-php cmd.php xf-addon:sync-json "$1" -v -f
-php cmd.php xf-addon:build-release "$1" -v
+php cmd.php xf-dev:rebuild-caches -v || exit 1
+php cmd.php xf-dev:metadata-clean -v || exit 1
+php cmd.php xf-addon:sync-json "$1" -v -f || exit 1
+php cmd.php xf-addon:build-release "$1" -v || exit 1
