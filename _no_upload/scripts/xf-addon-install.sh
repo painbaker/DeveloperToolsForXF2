@@ -10,4 +10,4 @@ if [[ ! -d "src/addons/$1" ]]; then
     exit 1;
 fi
 
-php cmd.php xf:addon-install "$@" -v
+php cmd.php xf:addon-install "$@" -v || exit 1

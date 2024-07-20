@@ -5,5 +5,5 @@
     "enabled": true,
     "action": "str_replace",
     "find": "<!--XF:JS-->",
-    "replace": "$0\n\n<xf:js src=\"ticktackk/developertools/xf/core.js\" addon=\"TickTackk/DeveloperTools\" min=\"1\" />"
+    "replace": "$0\n\n<xf:if is=\"$xf.versionId >= 2030030\">\n\t<xf:js src=\"ticktackk/developertools/xf/core.23x.js\" addon=\"TickTackk/DeveloperTools\" min=\"1\" />\n<xf:else />\n\t<xf:js src=\"ticktackk/developertools/xf/core.js\" addon=\"TickTackk/DeveloperTools\" min=\"1\" />\n</xf:if>"
 }

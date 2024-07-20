@@ -10,7 +10,6 @@ use XF\App as BaseApp;
 use XF\Mvc\Entity\AbstractCollection;
 use XF\Mvc\Entity\Entity;
 use XF\Cli\Command\Development\RequiresDevModeTrait;
-use XF\Mvc\Entity\Finder;
 use XF\Mvc\Entity\Repository;
 use XF\Util\File as FileUtil;
 use XF\Util\Php as PhpUtil;
@@ -26,7 +25,7 @@ use function is_array, is_string, strlen;
  */
 class EntityClassProperties extends Command
 {
-    use RequiresDevModeTrait;
+    use RequiresDevModeTrait, ClassPropertiesCommandTrait;
 
     protected function configure() : void
     {
@@ -117,13 +116,13 @@ class EntityClassProperties extends Command
         }
 
         $requireAddOnIds = null;
-        $requireSoftAddOnIds = null;
+        $softRequireAddOnIds = null;
         if (is_array($addOnJson))
         {
             $requireAddOnIds = array_keys($addOnJson['require']);
             if (isset($addOnJson['require-soft']))
             {
-                $requireSoftAddOnIds = array_keys($addOnJson['require-require']);
+                $softRequireAddOnIds = array_keys($addOnJson['require-require']);
             }
         }
 
@@ -186,6 +185,7 @@ class EntityClassProperties extends Command
                 }
                 else if ($returnType)
                 {
+                    /** @noinspection PhpElementIsNotAvailableInCurrentPhpVersionInspection */
                     if ($returnType instanceof \ReflectionUnionType)
                     {
                         $returnTypes = $returnType->getTypes();
@@ -251,9 +251,15 @@ class EntityClassProperties extends Command
                             $typePart = substr($typePart, 0, strlen($typePart) - 2);
                         }
 
-                        foreach ($this->getAllClassesExtendingClass($addOnId, $requireAddOnIds, $requireSoftAddOnIds, $typePart) AS $class)
+                        $typeHintClasses = $this->getTypeHintForClass(
+                            $typePart,
+                            $addOnId,
+                            $requireAddOnIds,
+                            $softRequireAddOnIds
+                        );
+                        foreach ($typeHintClasses AS $typeHintClass)
                         {
-                            $newType[] = '\\' . $class . ($isMulti ? '[]' : '');
+                            $newType[] = '\\' . $typeHintClass . ($isMulti ? '[]' : '');
                         }
                     }
                     $newType = array_unique($newType);
@@ -307,12 +313,11 @@ class EntityClassProperties extends Command
                     $relation .= '_';
                 }
 
-                $relationEntityClass = \XF::stringToClass($def['entity'], '%s\Entity\%s');
-                $relationEntityClasses = $this->getAllClassesExtendingClass(
+                $relationEntityClasses = $this->getTypeHintForClass(
+                    \XF::stringToClass($def['entity'], '%s\Entity\%s'),
                     $addOnId,
                     $requireAddOnIds,
-                    $requireSoftAddOnIds,
-                    $relationEntityClass
+                    $softRequireAddOnIds,
                 );
 
                 $relations[$relation] = [
@@ -405,6 +410,7 @@ class EntityClassProperties extends Command
 
     protected function getEntityTypeMap() : array
     {
+        /** @noinspection PhpDeprecationInspection */
         return [
             Entity::INT => 'int',
             Entity::UINT => 'int',

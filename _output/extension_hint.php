@@ -1,5 +1,6 @@
 <?php
 
+/** @noinspection PhpIllegalPsrClassPathInspection */
 // ################## THIS IS A GENERATED FILE ##################
 // DO NOT EDIT DIRECTLY. EDIT THE CLASS EXTENSIONS IN THE CONTROL PANEL.
 
@@ -11,6 +12,11 @@ namespace TickTackk\DeveloperTools\XF\Admin\Controller
 	class XFCP_Phrase extends \XF\Admin\Controller\Phrase {}
 	class XFCP_Template extends \XF\Admin\Controller\Template {}
 	class XFCP_TemplateModification extends \XF\Admin\Controller\TemplateModification {}
+}
+
+namespace TickTackk\DeveloperTools\XF\Api
+{
+	class XFCP_Templater extends \XF\Api\Templater {}
 }
 
 namespace TickTackk\DeveloperTools\XF\Entity
@@ -32,6 +38,7 @@ namespace TickTackk\DeveloperTools\XF\Job
 namespace TickTackk\DeveloperTools\XF\Mail
 {
 	class XFCP_Mailer extends \XF\Mail\Mailer {}
+	class XFCP_Templater extends \XF\Mail\Templater {}
 }
 
 namespace TickTackk\DeveloperTools\XF\Mvc\Renderer

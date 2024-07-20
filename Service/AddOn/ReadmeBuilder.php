@@ -33,6 +33,7 @@ use XF\Util\File as FileUtil;
 use League\HTMLToMarkdown\Converter\TableConverter;
 
 use function array_key_exists, count, in_array;
+use function reset;
 
 /**
  * Class ReadmeBuilder
@@ -96,10 +97,8 @@ class ReadmeBuilder extends AbstractService
      * @param AddOn|null $addOn
      *
      * @return array
-     *
-     * @throws \ReflectionException
      */
-    protected function getData(AddOn $addOn = null) : array
+    protected function getData(?AddOn $addOn = null) : array
     {
         $addOn = $addOn ?: $this->getAddOn();
         $installedAddOn = $addOn->getInstalledAddOn();
@@ -119,6 +118,18 @@ class ReadmeBuilder extends AbstractService
             $this->applyAddOnIdCondition($finder);
             $this->applyDefaultOrder($finder);
             $this->applyIdentifierSpecificConditions($finder);
+
+            $sortBy = null;
+            if (is_array($dataKey))
+            {
+                $sortBy = $dataKey['sortBy'] ?? null;
+                $dataKey = $dataKey['keyedBy'];
+
+                if ($sortBy !== null)
+                {
+                    $this->applyCustomOrder($finder, $sortBy);
+                }
+            }
 
             $data[$dataKey] = $finder->fetch();
         }
@@ -201,6 +212,8 @@ class ReadmeBuilder extends AbstractService
     }
 
     /**
+     * @version 1.5.0
+     *
      * @return array<string, string>
      */
     protected function getFinderAndDataMap() : array
@@ -210,7 +223,13 @@ class ReadmeBuilder extends AbstractService
             'XF:BbCodeMediaSite' => 'bb_code_media_sites',
             'XF:CronEntry' => 'cron_entries',
             'XF:Option' => 'options',
-            'XF:Permission' => 'permissions',
+            'XF:Permission' => [
+                'keyedBy' => 'permissions',
+                'sortBy' => [
+                    'Interface.display_order' => 'ASC',
+                    'display_order' => 'ASC'
+                ]
+            ],
             'XF:StyleProperty' => 'style_properties',
             'XF:WidgetDefinition' => 'widget_definitions',
             'XF:WidgetPosition' => 'widget_positions',
@@ -220,11 +239,6 @@ class ReadmeBuilder extends AbstractService
         ];
     }
 
-    /**
-     * @return array
-     *
-     * @throws \ReflectionException
-     */
     protected function getCliCommands() : array
     {
         $addOn = $this->getAddOn();
@@ -355,6 +369,34 @@ class ReadmeBuilder extends AbstractService
     }
 
     /**
+     * @since 1.5.0
+     *
+     * @param Finder $finder
+     * @param mixed $sortBy
+     *
+     * @return void
+     */
+    protected function applyCustomOrder(Finder $finder, $sortBy)
+    {
+        if (is_null($sortBy))
+        {
+            return;
+        }
+
+        if (is_array($sortBy))
+        {
+            foreach ($sortBy AS $column => $direction)
+            {
+                $finder->order($column, $direction);
+            }
+        }
+        else
+        {
+            $finder->order($sortBy);
+        }
+    }
+
+    /**
      * @since 1.3.7
      *
      * @param Finder $finder
@@ -458,7 +500,11 @@ class ReadmeBuilder extends AbstractService
             $addOnRepo = $this->getAddonRepo();
             if (array_key_exists('XF', $requirements))
             {
-                $versionString = $addOnRepo->inferVersionStringFromId(reset($requirements['XF']));
+                $versionString = reset($requirements['XF']);
+                if (is_numeric($versionString) || is_int($versionString))
+                {
+                    $versionString = $addOnRepo->inferVersionStringFromId($versionString);
+                }
                 $titleBlock .= " for XenForo {$versionString}+";
                 unset($requirements['XF']);
             }
@@ -506,6 +552,10 @@ class ReadmeBuilder extends AbstractService
          * @param ArrayCollection|array|Entity[] $entities
          * @param array $headerMap
          * @param bool $groupedEntities
+         *
+         * @return void
+         *
+         * @throws \Jawira\CaseConverter\CaseConverterException
          */
         $generateTableFromEntity = function (string $tableTitle, $entities, array $headerMap, bool $groupedEntities = false) use(&$readme) : void
         {

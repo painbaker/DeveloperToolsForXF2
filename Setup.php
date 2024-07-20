@@ -15,7 +15,7 @@ use function array_key_exists, count, is_string;
 
 /**
  * @since 1.0.0
- * @version 1.3.6
+ * @version 1.5.0
  */
 class Setup extends AbstractSetup
 {
@@ -35,7 +35,7 @@ class Setup extends AbstractSetup
             $table->addColumn('email_id', 'int')->nullable()->autoIncrement();
             $table->addColumn('subject', 'text');
             $table->addColumn('log_date', 'int');
-            $table->addColumn('return_path', 'text');
+            $table->addColumn('return_path', 'blob');
             $table->addColumn('sender', 'blob')->nullable();
             $table->addColumn('from', 'blob');
             $table->addColumn('reply_to', 'blob')->nullable();
@@ -280,5 +280,72 @@ class Setup extends AbstractSetup
                 \FILE_APPEND
             );
         }
+    }
+
+    /**
+     * @since 1.5.0
+     *
+     * @return void
+     */
+    public function upgrade1050070Step1() : void
+    {
+        $sm = $this->schemaManager();
+
+        $sm->alterTable('xf_tck_developer_tools_email_log', function(DbAlterSchema $table)
+        {
+            $table->changeColumn('return_path', 'blob');
+        });
+    }
+
+    /**
+     * @since 1.5.0
+     *
+     * @param array $stepParams
+     *
+     * @return array|bool
+     */
+    public function upgrade1050070Step2(array $stepParams)
+    {
+        $stepParams = array_replace([
+            'position' => 0
+        ],  $stepParams);
+
+        $db = $this->db();
+
+        $emailIds = $db->fetchAllColumn($db->limit('
+			SELECT email_id
+			FROM xf_tck_developer_tools_email_log
+			WHERE email_id > ?
+			ORDER BY email_id
+		', 10), $stepParams['position']);
+        if (!$emailIds)
+        {
+            return true;
+        }
+
+        $db->beginTransaction();
+
+        foreach ($emailIds AS $emailId)
+        {
+            $stepParams['position'] = $emailId;
+
+            $returnPath = $db->fetchOne('
+				SELECT return_path
+				FROM xf_tck_developer_tools_email_log
+				WHERE email_id = ?
+			', $emailId);
+            if (!$returnPath)
+            {
+                continue;
+            }
+
+            $db->update('xf_tck_developer_tools_email_log', [
+                'return_path' => json_encode([$returnPath => null]),
+            ], 'email_id = ?', $emailId);
+        }
+
+        $db->commit();
+
+        return $stepParams;
     }
 }

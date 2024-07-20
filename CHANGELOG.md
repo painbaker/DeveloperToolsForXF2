@@ -1,6 +1,17 @@
 CHANGELOG
 ==========================
 
+## 1.5.0 (`1050070`)
+
+- **New:** Add `tck-devtools:finder-class-properties` command to apply class properties to type hint relations in finder (#126)
+- **New:** Add `tck-devtools:generate-schema-addon` command to generate schema for every entity at once (#128)
+- **New:** Generate code event listener code using code generator (#130)
+- **Change:** Require Standard Library v1.20.1 by @Xon
+- **Fix:** Permission interface groups are not sorted correctly when building readme (#125)
+- **Fix:** Error: Call to undefined method `XF\Api\Templater::logPermissionError()` (#127)
+- **Fix:** Incompatible with XenForo 2.3 (#131)
+- **Fix:** Incompatible with XenForo 2.1 (#132)
+
 ## 1.4.3 (`1040370`)
 
 - **Fix:** Command `tck-dt:entity-class-properties` does not set getters and relations make use of `@property-read` tag as it should (#122)

@@ -49,7 +49,7 @@ class BetterExport extends Command
      * @param OutputInterface $output
      *
      * @return int|null
-     * @throws \Exception
+     * @throws \Symfony\Component\Console\Exception\ExceptionInterface
      */
     /** @noinspection PhpMissingParentCallCommonInspection */
     protected function execute(InputInterface $input, OutputInterface $output) : ?int

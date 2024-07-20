@@ -6,17 +6,19 @@ use XF\Mvc\Entity\Entity;
 use XF\Mvc\Entity\Structure as EntityStructure;
 
 /**
+ * @version 1.5.0
+ *
  * COLUMNS
  * @property int|null email_id
  * @property string subject
  * @property int log_date
- * @property string return_path
- * @property array|null|null sender
+ * @property array return_path
+ * @property array|null sender
  * @property array|null from
- * @property array|null|null reply_to
+ * @property array|null reply_to
  * @property array|null to
- * @property array|null|null cc
- * @property array|null|null bcc
+ * @property array|null cc
+ * @property array|null bcc
  * @property string|null html_message
  * @property string|null text_message
  */
@@ -31,7 +33,7 @@ class EmailLog extends Entity
             'email_id' => ['type' => static::UINT, 'autoIncrement' => true, 'nullable' => true],
             'subject' => ['type' => static::STR, 'required' => true],
             'log_date' => ['type' => static::UINT, 'required' => true],
-            'return_path' => ['type' => static::STR, 'required' => true],
+            'return_path' => ['type' => static::JSON, 'default' => []],
             'sender' => ['type' => static::JSON, 'default' => null, 'nullable' => true],
             'from' => ['type' => static::JSON, 'required' => true],
             'reply_to' => ['type' => static::JSON, 'default' => null, 'nullable' => true],
