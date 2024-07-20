@@ -33,7 +33,7 @@ class EmailLog extends Entity
             'email_id' => ['type' => static::UINT, 'autoIncrement' => true, 'nullable' => true],
             'subject' => ['type' => static::STR, 'required' => true],
             'log_date' => ['type' => static::UINT, 'required' => true],
-            'return_path' => ['type' => static::JSON, 'required' => true],
+            'return_path' => ['type' => static::JSON, 'default' => []],
             'sender' => ['type' => static::JSON, 'default' => null, 'nullable' => true],
             'from' => ['type' => static::JSON, 'required' => true],
             'reply_to' => ['type' => static::JSON, 'default' => null, 'nullable' => true],
