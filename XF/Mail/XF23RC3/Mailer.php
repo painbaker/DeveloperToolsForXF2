@@ -1,9 +1,9 @@
 <?php
 
-namespace TickTackk\DeveloperTools\XF\Mail\XF23;
+namespace TickTackk\DeveloperTools\XF\Mail\XF23RC3;
 
 use Symfony\Component\Mailer\Transport\AbstractTransport;
-use Symfony\Component\Mime\Email;
+use Symfony\Component\Mime\Message;
 use TickTackk\DeveloperTools\Repository\EmailLog as EmailLogLog;
 use TickTackk\DeveloperTools\XF\Mail\XFCP_Mailer;
 
@@ -13,14 +13,14 @@ use TickTackk\DeveloperTools\XF\Mail\XFCP_Mailer;
 class Mailer extends XFCP_Mailer
 {
     /**
-     * @param Email $email
+     * @param Message $email
      * @param AbstractTransport|null $transport
      *
      * @return bool|\Symfony\Component\Mailer\SentMessage|null
      *
      * @throws \XF\PrintableException
      */
-    public function send(Email $email, AbstractTransport $transport = null)
+    public function send(Message $email, ?AbstractTransport $transport = null)
     {
         $sent = parent::send($email, $transport);
 

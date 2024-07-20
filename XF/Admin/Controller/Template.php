@@ -80,8 +80,6 @@ class Template extends XFCP_Template
             $ids = array_fill_keys($ids, true);
         }
 
-        $status = null;
-
         /** @var TemplateModificationRepo $templateModRepo */
         $templateModRepo = $this->repository('XF:TemplateModification');
 
