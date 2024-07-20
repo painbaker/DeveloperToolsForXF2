@@ -92,6 +92,7 @@ Requirements
 - PHP's Intl extension
 - PHP's DOM extension
 - PHP's JSON extension
+- Standard Library by Xon v1.20.1+
 
 Options
 -------
@@ -109,14 +110,16 @@ CLI Commands
 
 | Command | Description |
 |---|---|
-| `tck-devtools:add-phrase` | Creates a phrase for an add-on. |
-| `tck-devtools:create-entity-from-table` | Creates an XF entity for an add-on from a table. |
-| `tck-devtools:better-export` | Exports the XML files for an add-on and applies class properties to type hint columns, getters and relations |
+| `tck-devtools:generate-schema-addon` | Generates schema codes from add-on. |
 | `tck-devtools:create-class-extension` | Creates an XF class-extension for an add-on and writes out a basic template file. |
-| `tck-devtools:entity-class-properties` | Applies class properties to type hint columns, relations and getters |
 | `tck-devtools:build-readme` | Builds README files for provided add-on. |
 | `tck-devtools:clamp-versions` | Ensures an add-on does not have phrases or templates with version id's above the addon.json file. |
 | `tck-devtools:generate-schema-entity` | Generates schema code from an entity |
+| `tck-devtools:finder-class-properties` | Applies class properties to type hint relations. |
+| `tck-devtools:better-export` | Exports the XML files for an add-on and applies class properties to type hint columns, getters and relations |
+| `tck-devtools:create-entity-from-table` | Creates an XF entity for an add-on from a table. |
+| `tck-devtools:add-phrase` | Creates a phrase for an add-on. |
+| `tck-devtools:entity-class-properties` | Applies class properties to type hint columns, relations and getters |
 
 Scripts
 -------
