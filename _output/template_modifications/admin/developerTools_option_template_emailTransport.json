@@ -1,6 +1,6 @@
 {
     "template": "option_template_emailTransport",
-    "description": "Enable hidden file-based email transport option",
+    "description": "Enable hidden file-based email transport option (XF 2.2)",
     "execution_order": 6119,
     "enabled": true,
     "action": "str_replace",

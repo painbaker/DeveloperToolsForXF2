@@ -1,0 +1,9 @@
+{
+    "template": "option_template_advancedEmailTransport",
+    "description": "Custom label for email transport method is using \"file\" type",
+    "execution_order": 6119,
+    "enabled": true,
+    "action": "preg_replace",
+    "find": "{(^\\s<xf:if is=\"\\$option\\.option_value\\.emailTransport.*?>.*?)(<xf:else \\/>$)}sm",
+    "replace": "$1<xf:elseif is=\"$option.option_value.emailTransport == 'file'\" />\n\t\t<div>{{ phrase('tckDeveloperTools_hidden_file_based_email_transport') }}</div>\n\t$2"
+}

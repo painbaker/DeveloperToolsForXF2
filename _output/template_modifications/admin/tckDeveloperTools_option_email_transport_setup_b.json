@@ -1,0 +1,9 @@
+{
+    "template": "option_email_transport_setup",
+    "description": "Enable hidden file-based email transport option (XF 2.3)",
+    "execution_order": 6119,
+    "enabled": true,
+    "action": "str_replace",
+    "find": "$option.option_value.emailTransport|to_upper",
+    "replace": "($option.option_value.emailTransport == 'file') ? phrase('tckDeveloperTools_hidden_file_based_email_transport') : $0"
+}

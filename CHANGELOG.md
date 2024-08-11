@@ -4,6 +4,7 @@ CHANGELOG
 ## 1.5.1 (`1050170`)
 
 - **Fix:** Template content is not displayed when editing template modification (#139)
+- **Fix:** Unable to select hidden file-based email transport on XenForo 2.3 (#140)
 
 ## 1.5.0 (`1050070`)
 
