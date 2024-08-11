@@ -1,6 +1,10 @@
 CHANGELOG
 ==========================
 
+## 1.5.1 (`1050170`)
+
+- **Fix:** Template content is not displayed when editing template modification (#139)
+
 ## 1.5.0 (`1050070`)
 
 - **New:** Add `tck-devtools:finder-class-properties` command to apply class properties to type hint relations in finder (#126)

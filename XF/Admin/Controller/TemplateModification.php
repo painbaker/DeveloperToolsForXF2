@@ -209,7 +209,7 @@ class TemplateModification extends XFCP_TemplateModification
         ])->fetchOne();
         if ($templateForStyle)
         {
-            $response->setJsonParam('template', $templateForStyle);
+            $response->setJsonParam('template', $templateForStyle->template);
         }
 
         return $response;
